@@ -30,18 +30,46 @@ public class CatchWord extends Thread {
 		pause=p;
 	}
 	
+
 	public void run() {
+
 		int i=0;
+		int lowPos = 0;
+
 		while (i<noWords) {		
 			while(pause.get()) {};
-			if (words[i].matchWord(target) || TypingTutorApp.hgy.mtchWord(target)) {
+
+			lowPos = i;
+			for(int counter3 = 0; counter3< noWords; counter3++){
+
+
+				if(words[i].getWord().equals(target) && words[counter3].getWord().equals(words[i].getWord()) && words[counter3].getY() >  words[i].getY()){
+
+					lowPos = counter3;
+
+
+				}
+					
+				
+			}
+
+			
+
+			if(words[lowPos].matchWord(target) || TypingTutorApp.hgy.mtchWord(target)){
+
 				System.out.println( " score! '" + target); //for checking
 				score.caughtWord(target.length());	
 				//FallingWord.increaseSpeed();
 				break;
+	
+	
 			}
+
+					
+				
+		
 		   i++;
 		}
-		
+
 	}	
 }
