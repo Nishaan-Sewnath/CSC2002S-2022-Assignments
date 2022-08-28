@@ -44,15 +44,15 @@ public class WordMover extends Thread {
 				    myWord.drop(10);
 					Myhung.slide(10);
 
+					//checks if the hungry word has falled off Screen
 					if(Myhung.OffScreen() && !done.get()){
 
 						score.missedWord();
 						Myhung.rsWord();
 						
 					}
-					//System.out.println(Myhung.gtX()+ " " +myWord.getX());
 
-
+					//below if statment checks if two words have collided
 					if(!done.get() && Myhung.gtX()>=myWord.getX()-30 && Myhung.gtX()<=myWord.getX()+10 && myWord.getY()>220 && myWord.getY()<300){
 
 						System.out.println("Hit hungry word!");
@@ -78,11 +78,11 @@ public class WordMover extends Thread {
 				score.missedWord();
 				myWord.resetWord();
 			}
-			//System.out.print(Myhung.OffScreen());
+			
 
 
 			myWord.resetWord();
-			//Myhung.rsWord();
+			
 		}
 	}
 	

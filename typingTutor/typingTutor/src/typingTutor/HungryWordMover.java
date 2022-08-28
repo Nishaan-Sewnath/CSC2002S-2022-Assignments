@@ -10,12 +10,9 @@ public class HungryWordMover{
     private static int slidingMin = 100;
 
     private boolean ofs, go;
+    public static WordDictionary wd;
 
-
-
-    //GamePanel gp;
-
-    //public static WordDictionary dict;
+    //constructors
 
     public HungryWordMover(){
 
@@ -34,7 +31,7 @@ public class HungryWordMover{
 
         this();
         Hword = text;
-        //this.ofs = false;
+        
 
     }
 
@@ -42,12 +39,12 @@ public class HungryWordMover{
 
         this(text);
         this.x = x;
-        //this.ofs = false;
         this.maxX = maxX;
 
 
     }
- 
+
+    //below two methods concerning the speed of the word
 
     public static void IncSpeed(){
 
@@ -63,6 +60,7 @@ public class HungryWordMover{
 
     }
 
+    //gets the words as a string
     public String getHungryWord(){
 
         return Hword;
@@ -71,6 +69,7 @@ public class HungryWordMover{
 
 
 
+    //sets the x and y coordinates of the word and checks if x goes over the boundary
     public void stX(int x){
 
         if(x>maxX){
@@ -90,18 +89,21 @@ public class HungryWordMover{
 
     }
 
+    //sets the contents of the word
     public void stword(String text){
 
         this.Hword = text;
 
     }
 
+    //gets the word in a string format
     public String gtWord(){
 
         return Hword;
 
     }
 
+    //below two methods are getter methods for the x and y coordinates
     public int gtX(){
 
         return x;
@@ -122,31 +124,31 @@ public class HungryWordMover{
     }
 
 
-    public void stPos(int x, int y){
+    public void stPos(int x, int y){//sets the position of the word if necessary
 
         stX(x);
         stY(y);
 
     }
 
-    public void rsPos(){
+    public void rsPos(){//resets the words position
 
         stX(0);
 
     }
 
 
-    public void rsWord(){
+    public void rsWord(){// resets the words
 
         rsPos();
-        Hword = TypingTutorApp.dict.getNewWord();
+        Hword = wd.getNewWord();
         ofs = false;
         slidingSpeed = (int)(Math.random() * (slidingMax-slidingMin)+slidingMin);
 
     }
 
-    public boolean mtchWord(String typedText) {
-		//System.out.println("Matching against: "+text);
+    public boolean mtchWord(String typedText) {//Similar to the matchingWords method in Falling words
+		
 		if (typedText.equals(this.Hword)) {
 			rsWord();
 			return true;

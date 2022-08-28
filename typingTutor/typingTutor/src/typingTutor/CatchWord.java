@@ -11,6 +11,9 @@ public class CatchWord extends Thread {
 	private static  FallingWord[] words; //list of words
 	private static int noWords; //how many
 	private static Score score; //user score
+	public static HungryWordMover hgy;
+
+	volatile int lowPos = 0;
 	
 	CatchWord(String typedWord) {
 		target=typedWord;
@@ -30,11 +33,11 @@ public class CatchWord extends Thread {
 		pause=p;
 	}
 	
-
+	//The run method was altered to ensure that the lowest duplicate would be the first word to dissapper
 	public void run() {
 
 		int i=0;
-		int lowPos = 0;
+		
 
 		while (i<noWords) {		
 			while(pause.get()) {};
@@ -55,7 +58,7 @@ public class CatchWord extends Thread {
 
 			
 
-			if(words[lowPos].matchWord(target) || TypingTutorApp.hgy.mtchWord(target)){
+			if(words[lowPos].matchWord(target) || hgy.mtchWord(target)){
 
 				System.out.println( " score! '" + target); //for checking
 				score.caughtWord(target.length());	

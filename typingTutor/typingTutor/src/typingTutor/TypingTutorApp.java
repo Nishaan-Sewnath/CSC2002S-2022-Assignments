@@ -51,7 +51,8 @@ public class TypingTutorApp {
         g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
       	g.setSize(frameX,frameY);
  
-		gameWindow = new GamePanel(words, hgy, yLimit,done,started,won);
+		gameWindow = new GamePanel(words, yLimit,done,started,won);
+		//GamePanel.hungry = new HungryWordMover();
 		gameWindow.setSize(frameX,yLimit+100);
 	    g.add(gameWindow);
 	    
@@ -97,6 +98,7 @@ public class TypingTutorApp {
 	    // add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+				//score = new Score();
 		    	won.set(false);
 		    	done.set(false);
 		    	started.set(true);
@@ -248,14 +250,21 @@ public static void main(String[] args) {
 		}
 				
 		FallingWord.dict=dict; //set the class dictionary for the words.
-		
+		HungryWordMover.wd=dict;
+		GamePanel.wordd= dict;
+
 		words = new FallingWord[noWords];  //array for the  current chosen words from dict
 		wrdShft = new WordMover[noWords]; //array for the threads that animate the words
 		hgy = new HungryWordMover();
 		
+
+		//CatchWord.setHungryWord(hgy);
+		CatchWord.hgy = hgy;
 		CatchWord.setWords(words);  //class setter - static method
 		CatchWord.setScore(score);  //class setter - static method
 		CatchWord.setFlags(done,pause); //class setter - static method
+
+		GamePanel.hungry=hgy;
 
 		setupGUI(frameX, frameY, yLimit);  
 	

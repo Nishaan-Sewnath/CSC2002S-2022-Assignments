@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JPanel;
@@ -14,15 +15,16 @@ public class GamePanel extends JPanel implements Runnable {
 		private AtomicBoolean won ; //REMOVE
 
 		private FallingWord[] words;
-		private HungryWordMover hungry;
+		public static HungryWordMover hungry;
 		private int noWords;
 		private final static int borderWidth=25; //appearance - border
 		private int counter = 0;
+		public static WordDictionary wordd;
 
-		GamePanel(FallingWord[] words, HungryWordMover hungry,int maxY,	
+		GamePanel(FallingWord[] words, int maxY,	
 				 AtomicBoolean d, AtomicBoolean s, AtomicBoolean w) {
 			this.words=words; //shared word list
-			this.hungry = hungry;
+			
 			noWords = words.length; //only need to do this once
 			done=d; //REMOVE
 			started=s; //REMOVE
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 		    int width = getWidth()-borderWidth*2;
 		    int height = getHeight()-borderWidth*2;
 
-			int rand = (int)Math.random();
+			int rand = (int)(Math.random() * (10000-632)+632);
 			
 		    g.clearRect(borderWidth,borderWidth,width,height);//the active space
 		    g.setColor(Color.pink); //change colour of pen
@@ -55,37 +57,29 @@ public class GamePanel extends JPanel implements Runnable {
 				
 		    	g.setColor(Color.lightGray); //change colour of pen
 		    	g.fillRect(borderWidth,0,width,borderWidth);
-				if(!hungry.OffScreen() && rand%3==0 && counter == 0){
 
-					//hungry.setGo(false);
-					
+				//below 2 if statements is used to make sure that only 1 hungry word is on screen at a time
+				if(!hungry.OffScreen() && rand%632==0 && counter == 0){
+
 					++counter;
 
-
 				}
-				//System.out.println(counter);
-				//System.out.println(hungry.OffScreen());
+
 				if(!hungry.OffScreen() && counter > 0){
 
-					//hungry.stX(getValidYpos());
 					g.setColor(Color.green);
 					g.setFont(new Font("Arial", Font.BOLD, 26));
-					
-					g.drawString(hungry.getHungryWord(), hungry.gtX(), (hungry.gtY()+getHeight()+borderWidth)/2);
-					//hungry.setGo(false);
-					//repaint();
-					//++counter;
+					g.drawString(hungry.getHungryWord(), hungry.gtX(), (hungry.gtY()+getHeight()+borderWidth)/2);	
 
 				}
 
-				if(hungry.OffScreen()){
-					//hungry.setScreen(false);
+				//gets new word from dictionary
+				if(hungry.OffScreen()&& rand%632==0){
 					
-					hungry = new HungryWordMover(TypingTutorApp.dict.getNewWord(), getValidYpos(), 9980);
-					System.out.println(hungry.gtX());
-					//hungry.rsPos();
-					//System.out.println("im");
-					//counter = 0;
+					hungry = new HungryWordMover(wordd.getNewWord(), getValidYpos(), 9980);
+					CatchWord.hgy = hungry;
+					//System.out.println(hungry.gtX());
+					
 
 
 				}
